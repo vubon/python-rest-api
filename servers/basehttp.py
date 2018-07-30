@@ -2,6 +2,9 @@ import json
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
+from recipes.urls import paths
+from recipes.views import all_recipes
+
 HOST_NAME = 'localhost'
 PORT_NUMBER = 9000
 
@@ -11,6 +14,15 @@ TODOS = [
 ]
 
 
+def test():
+    print('Hell Path')
+
+
+def recipes():
+    a = [{'id': 1, 'name': 'test recipe'}]
+    return a
+
+
 class MyHandler(BaseHTTPRequestHandler):
     def do_HEAD(self):
         self.send_response(200)
@@ -18,28 +30,44 @@ class MyHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        paths = {
-            '/foo': {'status': 200},
-            '/bar': {'status': 302},
-            '/baz': {'status': 404},
-            '/qux': {'status': 500}
-        }
+        # paths = {
+        #     '/': {'status': 200, 'data': ''},
+        #     '/foo': {'status': 200, 'data': TODOS},
+        #     '/bar': {'status': 302},
+        #     '/baz': {'status': 404},
+        #     '/qux': {'status': 500}
+        # }
 
         if self.path in paths:
-            self.respond(paths[self.path])
+            if self.path == '/recipes':
+                a = all_recipes()
+                self.respond(200, a)
+            else:
+                self.respond(200)
+                test()
         else:
-            self.respond({'status': 500})
+            self.respond(404)
 
-    def handle_http(self, status_code, path):
+    def do_POST(self):
+        request_path = self.path
+        print(request_path)
+        self.send_response(201)
+        self.send_header('Content_type', 'application/json')
+        self.end_headers()
+        return
+
+    do_PUT = do_POST
+    do_DELETE = do_GET
+
+    def handle_http(self, status_code, data):
         self.send_response(status_code)
         self.send_header('Content-Type', 'application/json')
         self.end_headers()
-        content = json.dumps({"data": TODOS})
+        content = json.dumps(data)
         return bytes(content, 'UTF-8')
 
-    def respond(self, opts):
-        response = self.handle_http(opts['status'], self.path)
-        print(response)
+    def respond(self, status_code, data=None):
+        response = self.handle_http(status_code, data)
         self.wfile.write(response)
 
 
