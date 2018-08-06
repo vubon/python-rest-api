@@ -14,5 +14,5 @@ db.execute(recipe_table)
 db.execute(recipe_rating)
 
 db_connection.commit()
-db_connection.close()
-db.close()
+# db_connection.close()
+# db.close()

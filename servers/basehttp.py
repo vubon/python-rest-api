@@ -2,8 +2,7 @@ import json
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from recipes.urls import paths
-
+from recipes.urls import get_path
 
 HOST_NAME = '127.0.1.1'
 PORT_NUMBER = 9000
@@ -16,57 +15,15 @@ class MyHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        # paths = {
-        #     '/': {'status': 200, 'data': ''},
-        #     '/foo': {'status': 200, 'data': TODOS},
-        #     '/bar': {'status': 302},
-        #     '/baz': {'status': 404},
-        #     '/qux': {'status': 500}
-        # }
-        # print(self.path.split('/')[2])
-
-        # if self.path == '/recipes':
-        #     a = all_recipes()
-        #     self.respond(200, a)
-        #
-        # elif self.path == '/recipes/{}'.format(self.path.split('/')[2]):
-        #     pk = self.path.split('/')[2]
-        #
-        #     def get_data(pk):
-        #         for data in all_recipes():
-        #             if data['id'] == int(pk):
-        #                 return [data]
-        #         return []
-        #
-        #     self.respond(200, get_data(pk))
-        #
-        # else:
-        #     self.respond(404)
-        print(self.path)
-        if any(self.path in url for url in paths):
-
-            if self.path == '/':
-                self.respond(paths[0][1].status_code, paths[0][1].data)
-
-            elif self.path == '/recipes':
-
-                self.respond(paths[1][1].status_code, paths[1][1].data)
-
-            elif self.path == '/recipes/{}':
-                pk = self.path.split('/')[2]
-                print(paths[2])
-
-                self.respond(paths[2][1].status_code, paths[2][1].data)
-
-        else:
-            self.respond(404, 'Not Found')
+        status_code, response = get_path(self.path, self.command)
+        self.respond(status_code, response)
 
     def do_POST(self):
-        request_path = self.path
-        self.send_response(201)
-        self.send_header('Content_type', 'application/json')
-        self.end_headers()
-        return
+        data_string = self.rfile.read(int(self.headers['Content-Length']))
+        data = json.loads(data_string)
+        status_code, response = get_path(self.path, self.command, data=data)
+
+        self.respond(status_code, response)
 
     do_PUT = do_POST
     do_DELETE = do_GET
