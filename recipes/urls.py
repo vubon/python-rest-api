@@ -1,22 +1,12 @@
-TODOS = [
-    {'id': 1, 'title': 'learn python'},
-    {'id': 2, 'title': 'get paid'},
+from recipes.views import *
+welcome = WelcomeView()
+recipes = AllRecipes()
+recipe = SingleRecipe()
+
+
+paths = [
+    ('/', welcome.get()),
+    ('/recipes', recipes.get()),
+    ('/recipes/{}', recipe),
+
 ]
-
-
-def get_data(pk):
-    for data in TODOS:
-        if data['id'] == int(pk):
-            return data
-        return []
-
-
-def checking(request):
-    print(request)
-
-
-paths = {
-    '/': {'status': 200},
-    '/recipes': {'status': 200},
-    '/recipes/{}/': {'status': 200},
-}

@@ -15,5 +15,4 @@ def fetch_all_recipes():
         data['created_at'] = item[5].strftime('%Y-%m-%dT%H:%M:%S')
         recipes.append(data)
     # serializer = json.dumps(db.fetchall(), indent=4, sort_keys=True, default=str)
-    print(recipes)
     return recipes

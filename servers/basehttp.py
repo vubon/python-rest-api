@@ -3,24 +3,10 @@ import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from recipes.urls import paths
-from recipes.views import all_recipes
 
-HOST_NAME = 'localhost'
+
+HOST_NAME = '127.0.1.1'
 PORT_NUMBER = 9000
-
-TODOS = [
-    {'id': 1, 'title': 'learn python'},
-    {'id': 2, 'title': 'get paid'},
-]
-
-
-def test():
-    print('Hell Path')
-
-
-def recipes():
-    a = [{'id': 1, 'name': 'test recipe'}]
-    return a
 
 
 class MyHandler(BaseHTTPRequestHandler):
@@ -37,20 +23,46 @@ class MyHandler(BaseHTTPRequestHandler):
         #     '/baz': {'status': 404},
         #     '/qux': {'status': 500}
         # }
+        # print(self.path.split('/')[2])
 
-        if self.path in paths:
-            if self.path == '/recipes':
-                a = all_recipes()
-                self.respond(200, a)
-            else:
-                self.respond(200)
-                test()
+        # if self.path == '/recipes':
+        #     a = all_recipes()
+        #     self.respond(200, a)
+        #
+        # elif self.path == '/recipes/{}'.format(self.path.split('/')[2]):
+        #     pk = self.path.split('/')[2]
+        #
+        #     def get_data(pk):
+        #         for data in all_recipes():
+        #             if data['id'] == int(pk):
+        #                 return [data]
+        #         return []
+        #
+        #     self.respond(200, get_data(pk))
+        #
+        # else:
+        #     self.respond(404)
+        print(self.path)
+        if any(self.path in url for url in paths):
+
+            if self.path == '/':
+                self.respond(paths[0][1].status_code, paths[0][1].data)
+
+            elif self.path == '/recipes':
+
+                self.respond(paths[1][1].status_code, paths[1][1].data)
+
+            elif self.path == '/recipes/{}':
+                pk = self.path.split('/')[2]
+                print(paths[2])
+
+                self.respond(paths[2][1].status_code, paths[2][1].data)
+
         else:
-            self.respond(404)
+            self.respond(404, 'Not Found')
 
     def do_POST(self):
         request_path = self.path
-        print(request_path)
         self.send_response(201)
         self.send_header('Content_type', 'application/json')
         self.end_headers()
