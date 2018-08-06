@@ -25,8 +25,11 @@ class MyHandler(BaseHTTPRequestHandler):
 
         self.respond(status_code, response)
 
+    def do_DELETE(self):
+        status_code, response = get_path(self.path, self.command)
+        self.respond(status_code, response)
+
     do_PUT = do_POST
-    do_DELETE = do_GET
 
     def handle_http(self, status_code, data):
         self.send_response(status_code)
