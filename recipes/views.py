@@ -1,5 +1,5 @@
 from db.query import fetch_all_recipes
-from db.curd import create_recipe_into_db, update_recipe_into_db, delete_recipe_from_db
+from db.curd import create_recipe_into_db, update_recipe_into_db, delete_recipe_from_db, recipe_rating_into_db
 from servers.response import Response
 from servers import status
 
@@ -50,3 +50,10 @@ class DeleteRecipe:
         message, status_code = delete_recipe_from_db({"id": pk})
         return Response(data=message, status=status_code)
 
+
+class RecipeRating:
+
+    def post(self, data, pk=None):
+        data['id'] = pk
+        message, status_code = recipe_rating_into_db(data=data)
+        return Response(data=message, status=status_code)

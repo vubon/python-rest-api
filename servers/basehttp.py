@@ -1,5 +1,7 @@
 import json
 import time
+import sys
+import base64
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from recipes.urls import get_path
@@ -14,19 +16,38 @@ class MyHandler(BaseHTTPRequestHandler):
         self.send_header('Content-Type', 'application/json')
         self.end_headers()
 
+    def do_AUTHHEAD(self):
+        self.send_response(401)
+        self.send_header('WWW-Authenticate', 'Basic realm="Vubon Roy"')
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+
     def do_GET(self):
-        status_code, response = get_path(self.path, self.command)
+        status_code, response = get_path(
+            path=self.path,
+            request_type=self.command,
+            authentication=self.headers.get('Authorization')
+        )
         self.respond(status_code, response)
 
     def do_POST(self):
         data_string = self.rfile.read(int(self.headers['Content-Length']))
         data = json.loads(data_string)
-        status_code, response = get_path(self.path, self.command, data=data)
+        status_code, response = get_path(
+            path=self.path,
+            request_type=self.command,
+            data=data,
+            authentication=self.headers.get('Authorization')
+        )
 
         self.respond(status_code, response)
 
     def do_DELETE(self):
-        status_code, response = get_path(self.path, self.command)
+        status_code, response = get_path(
+            path=self.path,
+            request_type=self.command,
+            authentication=self.headers.get('Authorization')
+        )
         self.respond(status_code, response)
 
     do_PUT = do_POST
