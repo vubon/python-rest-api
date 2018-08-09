@@ -1,13 +1,11 @@
 import json
 import time
-import sys
-import base64
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from recipes.urls import get_path
 
-HOST_NAME = '127.0.1.1'
-PORT_NUMBER = 9000
+HOST_NAME = '127.0.0.1'
+PORT_NUMBER = 8000
 
 
 class MyHandler(BaseHTTPRequestHandler):

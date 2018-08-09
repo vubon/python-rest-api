@@ -8,9 +8,9 @@ __author__ = " Vubon Roy"
 
 DATABASE = {
     "dbname": "hellofresh",
-    "user": "postgres",
-    "password": "postgres",
-    "host": "localhost",
+    "user": "hellofresh",
+    "password": "hellofresh",
+    "host": "postgres",
     "port": "5432"
 }
 

@@ -1,0 +1,39 @@
+version: "3.7"
+services:
+
+    python:
+        image: python:3.6
+        build: .
+        command: python3 basehttp.py
+        volumes:
+          - .:/code
+        links:
+            - postgres
+            #- mongodb
+            #- redis
+        ports:
+          - "8000:8000"
+
+    postgres:
+        image: onjin/alpine-postgres:9.5
+        restart: unless-stopped
+        ports:
+            - "5480:5480"
+        environment:
+            LC_ALL: C.UTF-8
+            POSTGRES_USER: hellofresh
+            POSTGRES_PASSWORD: hellofresh
+            POSTGRES_DB: hellofresh
+
+#    mongodb:
+#        image: mvertes/alpine-mongo:3.2.3
+#        restart: unless-stopped
+#        ports:
+#            - "27017:27017"
+#
+#    redis:
+#        image: sickp/alpine-redis:3.2.2
+#        restart: unless-stopped
+#        ports:
+#            - "6379:6379"
+
