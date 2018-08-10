@@ -1,7 +1,5 @@
 from db.database_connection import db_connection, db
 
-table = "CREATE TABLE newtable (foo INTEGER, bar TEXT);"
-
 recipe_table = "CREATE TABLE recipes (id serial PRIMARY KEY , name VARCHAR(100), " \
                "pre_time INTEGER CHECK ( pre_time > 0), difficulty INTEGER check ( difficulty > 0)," \
                " vegetarian BOOLEAN, created_at TIMESTAMP )"
