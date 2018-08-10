@@ -12,6 +12,8 @@ recipe_rating = "CREATE TABLE recipe_rating (recipe_id INTEGER REFERENCES recipe
 
 
 db.execute("select exists(select * from information_schema.tables where table_name=%s)", ('recipes',))
+
+# checking if table already exists then pass or create that table
 if db.fetchone()[0]:
     pass
 else:
