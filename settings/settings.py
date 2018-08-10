@@ -3,6 +3,7 @@ All of settings information of this Rest API project will hold here
 Created at: 28-07-2018
 """
 __author__ = " Vubon Roy"
+__version__ = '0.0.1'
 
 import os
 import environ
