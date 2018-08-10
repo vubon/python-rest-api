@@ -3,8 +3,6 @@ from http.server import BaseHTTPRequestHandler
 
 from recipes.urls import get_path
 
-PORT = 5000
-
 
 class MyHandler(BaseHTTPRequestHandler):
     def do_HEAD(self):
