@@ -1,6 +1,8 @@
 ## A simple Rest API by Python 
 I build a very basic rest api with Python. 
 
+[This documents only for version 0.0.1]
+
 ### How to use?
 You can use it in virtualenv or docker. 
 
