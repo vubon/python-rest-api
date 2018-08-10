@@ -1,11 +1,9 @@
 import json
-import time
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler
 
 from recipes.urls import get_path
 
-HOST_NAME = '127.0.0.1'
-PORT_NUMBER = 8000
+PORT = 5000
 
 
 class MyHandler(BaseHTTPRequestHandler):
@@ -60,15 +58,3 @@ class MyHandler(BaseHTTPRequestHandler):
     def respond(self, status_code, data=None):
         response = self.handle_http(status_code, data)
         self.wfile.write(response)
-
-
-if __name__ == '__main__':
-    server_class = HTTPServer
-    httpd = server_class((HOST_NAME, PORT_NUMBER), MyHandler)
-    print(time.asctime(), 'Server Starts - %s:%s' % (HOST_NAME, PORT_NUMBER))
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        pass
-    httpd.server_close()
-    print(time.asctime(), 'Server Stops - %s:%s' % (HOST_NAME, PORT_NUMBER))

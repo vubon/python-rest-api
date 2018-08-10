@@ -2,14 +2,13 @@ FROM python:3
 
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir /code
+RUN mkdir /code2
 
-WORKDIR /code
+WORKDIR /code2
 
-EXPOSE 8000
 
-ADD requirements.txt /code/
+ADD requirements.txt /code2/
 
 RUN pip install -r requirements.txt
 
-ADD . /code/
+ADD . /code2/

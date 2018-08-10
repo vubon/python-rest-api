@@ -10,8 +10,19 @@ recipe_table = "CREATE TABLE recipes (id serial PRIMARY KEY , name VARCHAR(100),
 
 recipe_rating = "CREATE TABLE recipe_rating (recipe_id INTEGER REFERENCES recipes, rated INTEGER CHECK( rated > 0))"
 
-db.execute(recipe_table)
-db.execute(recipe_rating)
+
+db.execute("select exists(select * from information_schema.tables where table_name=%s)", ('recipes',))
+if db.fetchone()[0]:
+    pass
+else:
+    db.execute(recipe_table)
+
+db.execute("select exists(select * from information_schema.tables where table_name=%s)", ('recipe_rating',))
+
+if db.fetchone()[0]:
+    pass
+else:
+    db.execute(recipe_rating)
 
 db_connection.commit()
 # db_connection.close()

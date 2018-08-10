@@ -15,7 +15,3 @@ DATABASE = {
 }
 
 # end Database settings
-
-INSTALL_APPS = [
-    'recipes',
-]

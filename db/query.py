@@ -3,8 +3,13 @@ from db.database_connection import db
 
 
 def fetch_all_recipes():
+    # db.execute(
+    #     "SELECT recipes.id, name, pre_time, difficulty, vegetarian, created_at, ROUND(AVG(rated),2) FROM recipes INNER JOIN recipe_rating ON recipe_id=id GROUP BY recipes.id")
+
     db.execute(
-        "SELECT recipes.id, name, pre_time, difficulty, vegetarian, created_at, ROUND(AVG(rated),2) FROM recipes INNER JOIN recipe_rating ON recipe_id=id GROUP BY recipes.id")
+        "SELECT recipes.id, name, pre_time, difficulty, vegetarian, created_at, ROUND(AVG(rated),2) "
+        "FROM recipes LEFT JOIN recipe_rating ON recipe_id=id GROUP BY recipes.id ORDER BY id ASC")
+
     recipes = []
     for item in db.fetchall():
         data = dict()
