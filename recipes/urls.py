@@ -1,5 +1,5 @@
 import re
-from servers.default_user import DefaultUser
+from servers.default_user import user_data
 from servers.status import *
 from recipes.views import *
 
@@ -13,10 +13,7 @@ update_recipe = UpdateRecipe()
 delete_recipe = DeleteRecipe()
 recipe_rating = RecipeRating()
 
-# manual authentication
-user = DefaultUser()
-username_password = user.set_auth('vubon', '123456')
-key = user.get_auth_key()
+key = user_data()
 
 
 def get_path(path, request_type, data=None, authentication=None):

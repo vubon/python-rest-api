@@ -27,6 +27,15 @@ class DefaultUser:
         return self.key
 
 
-# user = DefaultUser()
-# user.set_auth('vubon', '123456')
+def user_data():
+    """
+    If you want to change you can change and use same username password
+    when you want to create recipe item, delete recipe, update recipe.
+    :return: a key
+    :rtype: str
+    """
+    user = DefaultUser()
+    # username and password
+    user.set_auth('vubon', '123456')
+    return user.get_auth_key()
 
